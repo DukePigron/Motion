@@ -1,0 +1,10 @@
+name: Motion
+version: '${version}'
+main: io.github.dukepigron.motion.Motion
+api-version: '1.20'
+commands:
+  motion:
+    description: "Changes or retrieves the motion of entities"
+    usage: "/motion <target> [get|set]"
+    permission: permission.node
+    permission-message: "You do not have permission to use this command"
