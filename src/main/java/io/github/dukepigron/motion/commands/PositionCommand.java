@@ -244,6 +244,5 @@ public class PositionCommand {
                     break;
             }
         }
-
     }
 }
