@@ -235,11 +235,11 @@ public class PositionCommand {
                 case "set":
                     //If the operation is set, sets the entities current position values to the new vector
                     if(vector.getX() == 0)
-                        vector.setX(entity.getVelocity().getX());
+                        vector.setX(entity.getLocation().getX());
                     if(vector.getY() == 0)
-                        vector.setY(entity.getVelocity().getY());
-                    if(vector.getX() == 0)
-                        vector.setZ(entity.getVelocity().getZ());
+                        vector.setY(entity.getLocation().getY());
+                    if(vector.getZ() == 0)
+                        vector.setZ(entity.getLocation().getZ());
                     entity.teleport(new Location(entity.getWorld(), vector.getX(), vector.getY(), vector.getZ()));
                     break;
             }
