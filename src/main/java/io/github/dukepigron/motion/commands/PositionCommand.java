@@ -13,12 +13,12 @@ import org.bukkit.scoreboard.Objective;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class MotionCommand {
-
+public class PositionCommand {
     //CommandAPI already checks that inputs are not null
     @SuppressWarnings("unchecked")
-    public void registerMotionCommand(){
-        new CommandTree("motion")
+    public void registerPositionCommand(){
+        new CommandTree("position")
+                .withAliases("pos", "location")
                 .withPermission(CommandPermission.OP)
 
                 //Branches for set and add operators of command
@@ -30,14 +30,14 @@ public class MotionCommand {
                                 //Lets sender set/add value manually
                                 .then(new LiteralArgument("value")
                                         .then(new LocationArgument("vector", LocationType.PRECISE_POSITION, false)
-                                            // Branch for taking a vector as input
-                                            .executes((sender, args) -> {
+                                                // Branch for taking a vector as input
+                                                .executes((sender, args) -> {
 
-                                                ArrayList<Entity> targets = (ArrayList<Entity>) args.get("targets");
-                                                Vector vector = ((Location) args.get("vector")).toVector();
+                                                    ArrayList<Entity> targets = (ArrayList<Entity>) args.get("targets");
+                                                    Vector vector = ((Location) args.get("vector")).toVector();
 
-                                                changeVelocity(targets, (String) args.get("operations"), vector);
-                                            }, ExecutorType.ALL)
+                                                    changePosition(targets, (String) args.get("operations"), vector);
+                                                }, ExecutorType.ALL)
                                         )
                                 )
 
@@ -47,14 +47,14 @@ public class MotionCommand {
                                         //Not necessary but keeps command syntax consistent
                                         .then(new LiteralArgument("entity")
 
-                                                //The entity whose motion is the value being set/added
+                                                //The entity whose position is the value being set/added
                                                 .then(new EntitySelectorArgument.OneEntity("targetSource")
 
                                                         .executes((sender, args) -> {
                                                             ArrayList<Entity> entities = (ArrayList<Entity>) args.get("targets");
                                                             Entity targetSource = (Entity) args.get("targetSource");
 
-                                                            changeVelocity(entities, (String) args.get("operations"), targetSource.getVelocity());
+                                                            changePosition(entities, (String) args.get("operations"), targetSource.getLocation().toVector());
                                                         }, ExecutorType.ALL)
                                                 )
                                         )
@@ -62,24 +62,24 @@ public class MotionCommand {
 
                                 .then(new MultiLiteralArgument("axis", "x", "y", "z")
 
-                                        //The source that the motion value is take from (a number)
+                                        //The source that the position value is take from (a number)
                                         .then(new LiteralArgument("value")
 
                                                 .then(new DoubleArgument("amount")
-                                                        //Sets or adds the velocity in the specified axis
+                                                        //Sets or adds the position in the specified axis
                                                         .executes((sender, args) -> {
                                                             ArrayList<Entity> entities = (ArrayList<Entity>) args.get("targets");
                                                             double amount = (double) args.get("amount");
 
-                                                            changeVelocity(entities, (String) args.get("operations"), (String) args.get("axis"), amount);
+                                                            changePosition(entities, (String) args.get("operations"), (String) args.get("axis"), amount);
                                                         }, ExecutorType.ALL)
                                                 )
                                         )
 
                                         .then(new LiteralArgument("from")
-                                                //The source that the motion value is take from (a scoreboard value)
+                                                //The source that the position value is take from (a scoreboard value)
                                                 .then(new LiteralArgument("score")
-                                                        //The scoreholder whose score will be used to change the velocity
+                                                        //The scoreholder whose score will be used to change the position
                                                         .then(new ScoreHolderArgument.Single("scoreholder")
 
                                                                 .then(new ObjectiveArgument("objective")
@@ -92,7 +92,7 @@ public class MotionCommand {
                                                                                     double amount = args.get("scale") == null ? 1 : (double) args.get("scale");
                                                                                     amount *= objective.getScore(scoreholder).getScore();
 
-                                                                                    changeVelocity(entities, (String) args.get("operations"), (String) args.get("axis"), amount);
+                                                                                    changePosition(entities, (String) args.get("operations"), (String) args.get("axis"), amount);
                                                                                 }, ExecutorType.ALL)
                                                                         )
                                                                 )
@@ -105,16 +105,16 @@ public class MotionCommand {
 
                 //Branch for store operator, stores values in scoreboards
                 .then(new LiteralArgument("store")
-                        //Entity whose motion is being stored
+                        //Entity whose position is being stored
                         .then(new EntitySelectorArgument.OneEntity("target")
 
-                                //Axis of motion being stored (only stores a single double from the velocity vector)
+                                //Axis of position being stored (only stores a single double from the position vector)
                                 .then(new MultiLiteralArgument("axis", "x", "y", "z")
 
-                                        //Scoreholder whose score is being set to the motion value
+                                        //Scoreholder whose score is being set to the position value
                                         .then(new ScoreHolderArgument.Multiple("scoreholder")
 
-                                                //Objective that the motion value is being stored in
+                                                //Objective that the position value is being stored in
                                                 .then(new ObjectiveArgument("objective")
 
                                                         //Optional argument for scaling the value
@@ -125,21 +125,21 @@ public class MotionCommand {
                                                                     Objective objective = (Objective) args.get("objective");
                                                                     double amount = args.get("scale") == null ? 1 : (double) args.get("scale");
 
-                                                                    //sets vel to the velocity value of the axis specified
-                                                                    double vel = 0;
+                                                                    //sets vel to the position value of the axis specified
+                                                                    double pos = 0;
                                                                     switch((String) args.get("axis")) {
                                                                         case "x":
-                                                                            vel = entity.getVelocity().getX();
+                                                                            pos = entity.getLocation().getX();
                                                                             break;
                                                                         case "y":
-                                                                            vel = entity.getVelocity().getY();
+                                                                            pos = entity.getLocation().getY();
                                                                             break;
                                                                         case "z":
-                                                                            vel = entity.getVelocity().getZ();
+                                                                            pos = entity.getLocation().getZ();
                                                                             break;
                                                                     }
 
-                                                                    amount *= vel;
+                                                                    amount *= pos;
 
                                                                     for(String scoreholder : scoreholders){
                                                                         objective.getScore(scoreholder).setScore((int) amount);
@@ -152,7 +152,7 @@ public class MotionCommand {
                         )
                 )
 
-                //Get argument for returning velocity vectors or doubles
+                //Get argument for returning position vectors or doubles
                 .then(new LiteralArgument("get")
 
                         .then(new EntitySelectorArgument.OneEntity("target")
@@ -160,23 +160,23 @@ public class MotionCommand {
                                 .then(new MultiLiteralArgument("axis", "x", "y", "z").setOptional(true)
                                         .executes((sender, args) -> {
                                             Entity entity = (Entity) args.get("target");
-                                            Vector vel = entity.getVelocity();
+                                            Location pos = entity.getLocation();
 
-                                            //Returns velocity vector from the target if no axis is given
+                                            //Returns position vector from the target if no axis is given
                                             if(args.get("axis") == null){
-                                                sender.sendMessage(((Entity) args.get("target")).getVelocity().toString());
+                                                sender.sendMessage(((Entity) args.get("target")).getLocation().toVector().toString());
                                             } else {
 
-                                                //Returns the velocity in the axis specified as a double
+                                                //Returns the position in the axis specified as a double
                                                 switch ((String) args.get("axis")) {
                                                     case "x":
-                                                        sender.sendMessage(Double.toString(vel.getX()));
+                                                        sender.sendMessage(Double.toString(pos.getX()));
                                                         break;
                                                     case "y":
-                                                        sender.sendMessage(Double.toString(vel.getY()));
+                                                        sender.sendMessage(Double.toString(pos.getY()));
                                                         break;
                                                     case "z":
-                                                        sender.sendMessage(Double.toString(vel.getZ()));
+                                                        sender.sendMessage(Double.toString(pos.getZ()));
                                                         break;
 
                                                 }
@@ -191,25 +191,25 @@ public class MotionCommand {
     }
 
     //Adds/sets the entities velocities by the amount given
-    public void changeVelocity(ArrayList<Entity> entities, String operation, Vector vector){
+    public void changePosition(ArrayList<Entity> entities, String operation, Vector vector){
 
         switch(operation){
             case "add":
                 for(Entity entity : entities){
-                    entity.setVelocity(entity.getVelocity().add(vector));
+                    entity.teleport(entity.getLocation().add(vector));
                 }
                 break;
             case "set":
                 for(Entity entity : entities){
-                    entity.setVelocity(vector);
+                    entity.teleport(new Location(entity.getWorld(), vector.getX(), vector.getY(), vector.getZ()));
                 }
                 break;
         }
 
     }
 
-    //Same as the one that uses a vector but for a single axis of motion
-    public void changeVelocity(ArrayList<Entity> entities, String operation, String axis, double value){
+    //Same as the one that uses a vector but for a single axis of position
+    public void changePosition(ArrayList<Entity> entities, String operation, String axis, double value){
 
         //Creates a vector with two axes set to 0 and the one specified set to the value given
         Vector vector = new Vector();
@@ -230,21 +230,20 @@ public class MotionCommand {
             switch(operation){
                 case "add":
                     //If the operation is add, adds the vectors
-                    entity.setVelocity(entity.getVelocity().add(vector));
+                    entity.teleport(entity.getLocation().add(vector));
                     break;
                 case "set":
-                    //If the operation is set, sets the entities current motion values to the new vector
+                    //If the operation is set, sets the entities current position values to the new vector
                     if(vector.getX() == 0)
                         vector.setX(entity.getVelocity().getX());
                     if(vector.getY() == 0)
                         vector.setY(entity.getVelocity().getY());
                     if(vector.getX() == 0)
                         vector.setZ(entity.getVelocity().getZ());
-                    entity.setVelocity(vector);
+                    entity.teleport(new Location(entity.getWorld(), vector.getX(), vector.getY(), vector.getZ()));
                     break;
             }
         }
 
     }
-
 }
