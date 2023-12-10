@@ -164,7 +164,7 @@ public class MotionCommand {
 
                                             //Returns velocity vector from the target if no axis is given
                                             if(args.get("axis") == null){
-                                                sender.sendMessage(((Entity) args.get("target")).getVelocity().toString());
+                                                sender.sendMessage(vel.toString());
                                             } else {
 
                                                 //Returns the velocity in the axis specified as a double

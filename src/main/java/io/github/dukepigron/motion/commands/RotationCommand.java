@@ -1,42 +1,42 @@
 package io.github.dukepigron.motion.commands;
 
-import dev.jorel.commandapi.CommandTree;
 import dev.jorel.commandapi.CommandPermission;
+import dev.jorel.commandapi.CommandTree;
 import dev.jorel.commandapi.arguments.*;
-
 import dev.jorel.commandapi.executors.ExecutorType;
+import dev.jorel.commandapi.wrappers.Rotation;
 import org.bukkit.Location;
-import org.bukkit.util.Vector;
 import org.bukkit.entity.Entity;
 import org.bukkit.scoreboard.Objective;
+import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class PositionCommand {
+public class RotationCommand {
+
     //CommandAPI already checks that inputs are not null
     @SuppressWarnings("unchecked")
-    public void registerPositionCommand(){
-        new CommandTree("position")
-                .withAliases("pos", "location")
+    public void registerRotationCommand() {
+        new CommandTree("rotation")
                 .withPermission(CommandPermission.OP)
 
                 //Branches for set and add operators of command
-                //They both either take in a vector or a single double
+                //They both either take in a rotation object or a single float
                 .then(new MultiLiteralArgument("operations", "set", "add")
 
                         .then(new EntitySelectorArgument.ManyEntities("targets")
 
                                 //Lets sender set/add value manually
                                 .then(new LiteralArgument("value")
-                                        .then(new LocationArgument("vector", LocationType.PRECISE_POSITION, false)
-                                                // Branch for taking a vector as input
+                                        .then(new RotationArgument("rotation")
+                                                // Branch for taking a rotation object as input
                                                 .executes((sender, args) -> {
 
                                                     ArrayList<Entity> targets = (ArrayList<Entity>) args.get("targets");
-                                                    Vector vector = ((Location) args.get("vector")).toVector();
+                                                    Rotation rotation = (Rotation) args.get("rotation");
 
-                                                    changePosition(targets, (String) args.get("operations"), vector);
+                                                    changeRotation(targets, (String) args.get("operations"), rotation.getNormalizedYaw(), rotation.getNormalizedPitch());
                                                 }, ExecutorType.ALL)
                                         )
                                 )
@@ -47,39 +47,39 @@ public class PositionCommand {
                                         //Not necessary but keeps command syntax consistent
                                         .then(new LiteralArgument("entity")
 
-                                                //The entity whose position is the value being set/added
+                                                //The entity whose rotation is the value being set/added
                                                 .then(new EntitySelectorArgument.OneEntity("targetSource")
 
                                                         .executes((sender, args) -> {
                                                             ArrayList<Entity> entities = (ArrayList<Entity>) args.get("targets");
                                                             Entity targetSource = (Entity) args.get("targetSource");
 
-                                                            changePosition(entities, (String) args.get("operations"), targetSource.getLocation().toVector());
+                                                            changeRotation(entities, (String) args.get("operations"), targetSource.getYaw(), targetSource.getPitch());
                                                         }, ExecutorType.ALL)
                                                 )
                                         )
                                 )
 
-                                .then(new MultiLiteralArgument("axis", "x", "y", "z")
+                                .then(new MultiLiteralArgument("axis", "yaw", "pitch")
 
-                                        //The source that the position value is take from (a number)
+                                        //The source that the rotation value is take from (a number)
                                         .then(new LiteralArgument("value")
 
-                                                .then(new DoubleArgument("amount")
-                                                        //Sets or adds the position in the specified axis
+                                                .then(new FloatArgument("amount")
+                                                        //Sets or adds the rotation in the specified axis
                                                         .executes((sender, args) -> {
                                                             ArrayList<Entity> entities = (ArrayList<Entity>) args.get("targets");
-                                                            double amount = (double) args.get("amount");
+                                                            float amount = (float) args.get("amount");
 
-                                                            changePosition(entities, (String) args.get("operations"), (String) args.get("axis"), amount);
+                                                            changeRotation(entities, (String) args.get("operations"), (String) args.get("axis"), amount);
                                                         }, ExecutorType.ALL)
                                                 )
                                         )
 
                                         .then(new LiteralArgument("from")
-                                                //The source that the position value is take from (a scoreboard value)
+                                                //The source that the rotation value is take from (a scoreboard value)
                                                 .then(new LiteralArgument("score")
-                                                        //The scoreholder whose score will be used to change the position
+                                                        //The scoreholder whose score will be used to change the rotation
                                                         .then(new ScoreHolderArgument.Single("scoreholder")
 
                                                                 .then(new ObjectiveArgument("objective")
@@ -89,10 +89,10 @@ public class PositionCommand {
                                                                                     ArrayList<Entity> entities = (ArrayList<Entity>) args.get("targets");
                                                                                     String scoreholder = (String) args.get("scoreholder");
                                                                                     Objective objective = (Objective) args.get("objective");
-                                                                                    double amount = args.get("scale") == null ? 1 : (double) args.get("scale");
+                                                                                    float amount = args.get("scale") == null ? 1 : (float) args.get("scale");
                                                                                     amount *= objective.getScore(scoreholder).getScore();
 
-                                                                                    changePosition(entities, (String) args.get("operations"), (String) args.get("axis"), amount);
+                                                                                    changeRotation(entities, (String) args.get("operations"), (String) args.get("axis"), amount);
                                                                                 }, ExecutorType.ALL)
                                                                         )
                                                                 )
@@ -105,16 +105,16 @@ public class PositionCommand {
 
                 //Branch for store operator, stores values in scoreboards
                 .then(new LiteralArgument("store")
-                        //Entity whose position is being stored
+                        //Entity whose motion is being stored
                         .then(new EntitySelectorArgument.OneEntity("target")
 
-                                //Axis of position being stored (only stores a single double from the position vector)
-                                .then(new MultiLiteralArgument("axis", "x", "y", "z")
+                                //Axis of motion being stored (only stores a single float from the rotation)
+                                .then(new MultiLiteralArgument("axis", "yaw", "pitch")
 
-                                        //Scoreholder whose score is being set to the position value
+                                        //Scoreholder whose score is being set to the rotation value
                                         .then(new ScoreHolderArgument.Multiple("scoreholder")
 
-                                                //Objective that the position value is being stored in
+                                                //Objective that the rotation value is being stored in
                                                 .then(new ObjectiveArgument("objective")
 
                                                         //Optional argument for scaling the value
@@ -125,23 +125,20 @@ public class PositionCommand {
                                                                     Objective objective = (Objective) args.get("objective");
                                                                     double amount = args.get("scale") == null ? 1 : (double) args.get("scale");
 
-                                                                    //sets vel to the position value of the axis specified
-                                                                    double pos = 0;
-                                                                    switch((String) args.get("axis")) {
-                                                                        case "x":
-                                                                            pos = entity.getLocation().getX();
+                                                                    //sets angle to the rotation value of the axis specified
+                                                                    double angle = 0;
+                                                                    switch ((String) args.get("axis")) {
+                                                                        case "yaw":
+                                                                            angle = entity.getYaw();
                                                                             break;
-                                                                        case "y":
-                                                                            pos = entity.getLocation().getY();
-                                                                            break;
-                                                                        case "z":
-                                                                            pos = entity.getLocation().getZ();
+                                                                        case "pitch":
+                                                                            angle = entity.getPitch();
                                                                             break;
                                                                     }
 
-                                                                    amount *= pos;
+                                                                    amount *= angle;
 
-                                                                    for(String scoreholder : scoreholders){
+                                                                    for (String scoreholder : scoreholders) {
                                                                         objective.getScore(scoreholder).setScore((int) amount);
                                                                     }
                                                                 }, ExecutorType.ALL)
@@ -152,33 +149,30 @@ public class PositionCommand {
                         )
                 )
 
-                //Get argument for returning position vectors or doubles
+                //Get argument for returning rotation values or floats
                 .then(new LiteralArgument("get")
 
                         .then(new EntitySelectorArgument.OneEntity("target")
 
-                                .then(new MultiLiteralArgument("axis", "x", "y", "z").setOptional(true)
+                                .then(new MultiLiteralArgument("axis", "yaw", "pitch").setOptional(true)
                                         .executes((sender, args) -> {
                                             Entity entity = (Entity) args.get("target");
-                                            Location pos = entity.getLocation();
+                                            float yaw = entity.getYaw();
+                                            float pitch = entity.getPitch();
 
-                                            //Returns position vector from the target if no axis is given
-                                            if(args.get("axis") == null){
-                                                sender.sendMessage(pos.toVector().toString());
+                                            //Returns pitch and yaw from the target if no axis is given
+                                            if (args.get("axis") == null) {
+                                                sender.sendMessage("[" + yaw + ", " + pitch + "]");
                                             } else {
 
-                                                //Returns the position in the axis specified as a double
+                                                //Returns the velocity in the axis specified as a float
                                                 switch ((String) args.get("axis")) {
-                                                    case "x":
-                                                        sender.sendMessage(Double.toString(pos.getX()));
+                                                    case "yaw":
+                                                        sender.sendMessage(Float.toString(yaw));
                                                         break;
-                                                    case "y":
-                                                        sender.sendMessage(Double.toString(pos.getY()));
+                                                    case "pitch":
+                                                        sender.sendMessage(Float.toString(pitch));
                                                         break;
-                                                    case "z":
-                                                        sender.sendMessage(Double.toString(pos.getZ()));
-                                                        break;
-
                                                 }
 
                                             }
@@ -190,59 +184,66 @@ public class PositionCommand {
                 .register();
     }
 
-    //Adds/sets the entities velocities by the amount given
-    public void changePosition(ArrayList<Entity> entities, String operation, Vector vector){
+    //Adds/sets the entities rotation by the amount given
+    public void changeRotation(ArrayList<Entity> entities, String operation, float yaw, float pitch){
 
         switch(operation){
             case "add":
                 for(Entity entity : entities){
-                    entity.teleport(entity.getLocation().add(vector));
+                    Location location = entity.getLocation();
+                    location.setYaw(entity.getYaw()+yaw);
+                    location.setPitch(entity.getPitch()+pitch);
+                    entity.teleport(location);
                 }
                 break;
             case "set":
                 for(Entity entity : entities){
-                    entity.teleport(new Location(entity.getWorld(), vector.getX(), vector.getY(), vector.getZ()));
+                    Location location = entity.getLocation();
+                    location.setYaw(yaw);
+                    location.setPitch(pitch);
+                    entity.teleport(location);
                 }
                 break;
         }
 
     }
 
-    //Same as the one that uses a vector but for a single axis of position
-    public void changePosition(ArrayList<Entity> entities, String operation, String axis, double value){
+    //Same as the one that uses a rotation object but for a single axis of rotation
+    public void changeRotation(ArrayList<Entity> entities, String operation, String axis, float value){
 
-        //Creates a vector with two axes set to 0 and the one specified set to the value given
-        Vector vector = new Vector();
+        //Sets one of the axes to 0 and the other to the value provided
+        float yaw = 0f;
+        float pitch = 0f;
         switch(axis){
-            case "x":
-                vector.setX(value);
+            case "yaw":
+                yaw+=value;
                 break;
-            case "y":
-                vector.setY(value);
-                break;
-            case "z":
-                vector.setZ(value);
+            case "pitch":
+                pitch+=value;
                 break;
         }
 
         for(Entity entity : entities){
+            Location location = entity.getLocation();
 
             switch(operation){
                 case "add":
-                    //If the operation is add, adds the vectors
-                    entity.teleport(entity.getLocation().add(vector));
+                    //If the operation is add, adds the rotations
+                    location.setYaw(entity.getYaw()+yaw);
+                    location.setPitch(entity.getPitch()+pitch);
                     break;
                 case "set":
-                    //If the operation is set, sets the entities current position values to the new vector
-                    if(vector.getX() == 0)
-                        vector.setX(entity.getLocation().getX());
-                    if(vector.getY() == 0)
-                        vector.setY(entity.getLocation().getY());
-                    if(vector.getZ() == 0)
-                        vector.setZ(entity.getLocation().getZ());
-                    entity.teleport(new Location(entity.getWorld(), vector.getX(), vector.getY(), vector.getZ()));
+                    //If the operation is set, sets the entities rotation to the pitch and yaw values stored
+                    if(yaw == 0)
+                        yaw = entity.getYaw();
+                    if(pitch == 0)
+                        pitch = entity.getPitch();
+                    location.setYaw(yaw);
+                    location.setPitch(pitch);
                     break;
             }
+            entity.teleport(location);
         }
+
     }
 }

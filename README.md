@@ -42,6 +42,24 @@ Corresponds to the minecraft NBT data Motion. <br />
 
 Corresponds to the minecraft NBT data Pos. <br />
 
+### /rotation
+```
+/rotation [add|set] <target> [value] <rotation>
+/rotation [add|set] <target> [from] [entity] <source>
+
+/rotation [add|set] <target> [yaw|pitch] [value] <amount>
+/rotation [add|set] <target> [yaw|pitch] [from] [score] <scoreholder> <objective>
+/rotation [add|set] <target> [yaw|pitch] [from] [score] <scoreholder> <objective> [<scale>]
+
+/rotation [get] <target>
+/rotation [get] <target> [yaw|pitch]
+
+/rotation [store] <target> [yaw|pitch] <scoreholder> <objective>
+/rotation [store] <target> [yaw|pitch] <scoreholder> <objective> [<scale>]
+```
+
+Corresponds to the minecraft NBT data Rotation. <br />
+
 ### Operators
 `add` adds the motion given (by a vector or amount) to the motion the target currently has <br />
 `set` sets the target's motion to the motion given (by a vector or amount) <br />
@@ -53,6 +71,7 @@ Corresponds to the minecraft NBT data Pos. <br />
 `[entity|score]` the type of source that the motion value will be taken from <br />
 `[from]` means that the value that the target's motion is being modified by will come from a source (entity or scoreboard) <br />
 `<objective>` is the scoreboard objective you want to store or retrieve <br />
+`<rotation>` two values, with the first being the yaw and the second being the pitch <br />
 `[<scale>]` is an optional value that you want to multiply by the score you're retrieving or the amount you are storing <br />
 `<scoreholder>` is the name (entity or fakeplayer) whose score you want to store or retrieve <br />
 `<target>` is the entity (or entities for `add` and `set`) that is having their motion modified/stored/returned <br />
