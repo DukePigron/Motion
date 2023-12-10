@@ -1,14 +1,14 @@
 package io.github.dukepigron.motion;
 
 import io.github.dukepigron.motion.commands.MotionCommand;
-import io.github.dukepigron.motion.commands.MotionTabCompleter;
+//import io.github.dukepigron.motion.commands.MotionTabCompleter;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Motion extends JavaPlugin {
     @Override
     public void onEnable() {
-        RegisterCommandsAndEvents();
+        new MotionCommand().registerMotionCommand();
 
         Bukkit.getLogger().info("[Motion] Sliding in!");
     }
@@ -19,7 +19,6 @@ public final class Motion extends JavaPlugin {
     }
 
     private void RegisterCommandsAndEvents(){
-        getCommand("motion").setExecutor(new MotionCommand());
-        getCommand("motion").setTabCompleter(new MotionTabCompleter());
+
     }
 }
