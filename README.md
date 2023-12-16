@@ -66,6 +66,14 @@ Corresponds to the minecraft NBT data Rotation. <br />
 /lookat <target> <source> [<anchoredEyes>]
 /lookat <target> <location>
 ```
+Makes the target look at the source
+
+### /launch
+```
+/launch [add|set] <target> <speed> [from] [entity] <source>
+/launch [add|set] <target> <speed> [value] <direction>
+```
+Launches the target with the speed and direction given, can either add to set their current speed
 
 ### Operators
 `add` adds the motion given (by a vector or amount) to the motion the target currently has <br />
