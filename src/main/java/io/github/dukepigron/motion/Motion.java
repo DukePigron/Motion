@@ -5,6 +5,7 @@ import io.github.dukepigron.motion.commands.PositionCommand;
 import io.github.dukepigron.motion.commands.RotationCommand;
 import io.github.dukepigron.motion.commands.LookAtCommand;
 import io.github.dukepigron.motion.commands.LaunchCommand;
+import io.github.dukepigron.motion.commands.DistanceCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -16,6 +17,7 @@ public final class Motion extends JavaPlugin {
         new RotationCommand().registerRotationCommand();
         new LookAtCommand().registerLookAtCommand();
         new LaunchCommand().registerLaunchCommand();
+        new DistanceCommand().registerDistanceCommand();
 
         Bukkit.getLogger().info("[Motion] Sliding in!");
     }

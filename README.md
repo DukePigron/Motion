@@ -75,6 +75,14 @@ Makes the target look at the source
 ```
 Launches the target with the speed and direction given, can either add to set their current speed
 
+### /distance
+```
+/distance [get] <target1> <target2>
+/distance [store] <target1> <target2> <scoreholder> <objective>
+/distance [store] <target1> <target2> <scoreholder> <objective> [<scale>]
+```
+Retrieves the distance between an entity and either another entity or a position
+
 ### Operators
 `add` adds the motion given (by a vector or amount) to the motion the target currently has <br />
 `set` sets the target's motion to the motion given (by a vector or amount) <br />
@@ -98,4 +106,4 @@ Launches the target with the speed and direction given, can either add to set th
 `[x|y|z]` is the axis of motion that is being returned/modified. For example, if a player is falling straight down, their motion in the y axis would be a negative value. <br />
 
 ## To-Do
--Rotation and Position commands
+-nothing
