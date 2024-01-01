@@ -70,10 +70,11 @@ Makes the target look at the source
 
 ### /launch
 ```
-/launch [add|set] <target> <speed> [from] [entity] <source>
-/launch [add|set] <target> <speed> [value] <direction>
+/launch [add|set] <target> <direction> <speed>
 ```
-Launches the target with the speed and direction given, can either add to set their current speed
+Both <direction> and <speed> can be given a `[value]` directly, taking two floats and a single double, respectively. <br />
+Alternatively, each can take a `[score]` from objectives, with the direction taking two objectives (first for yaw and second for pitch) and the speed taking one. <br />
+Launches the target with the speed and direction given, can either add or set their current speed
 
 ### /distance
 ```
