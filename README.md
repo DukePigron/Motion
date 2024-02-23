@@ -84,6 +84,12 @@ Launches the target with the speed and direction given, can either add or set th
 ```
 Retrieves the distance between an entity and either another entity or a position
 
+### /explode
+```
+/explode [entity|location] <radius> <minPower> <maxPower>
+```
+Simulates the motion of an explosion (without particles). The radius, minPower, and maxPower can take double values or scoreboard values. Power refers to the motion added to the entities hit.
+
 ### Operators
 `add` adds the motion given (by a vector or amount) to the motion the target currently has <br />
 `set` sets the target's motion to the motion given (by a vector or amount) <br />
