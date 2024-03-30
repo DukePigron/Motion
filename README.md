@@ -86,9 +86,9 @@ Retrieves the distance between an entity and either another entity or a position
 
 ### /explode
 ```
-/explode [entity|location] <radius> <minPower> <maxPower>
+/explode [entity|location] <radius> <minPower> <maxPower> <fallOffType>
 ```
-Simulates the motion of an explosion (without particles). The radius, minPower, and maxPower can take double values or scoreboard values. Power refers to the motion added to the entities hit.
+Simulates the motion of an explosion (without particles). The radius, minPower, and maxPower can take double values or scoreboard values. Power refers to the motion added to the entities hit. fallOffType refers to the way power falls off for targets further from the center
 
 ### Operators
 `add` adds the motion given (by a vector or amount) to the motion the target currently has <br />
