@@ -8,7 +8,6 @@ import dev.jorel.commandapi.wrappers.Rotation;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.scoreboard.Objective;
-import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.Collection;
