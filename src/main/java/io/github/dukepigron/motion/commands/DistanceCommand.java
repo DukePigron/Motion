@@ -7,7 +7,6 @@ import dev.jorel.commandapi.arguments.*;
 import dev.jorel.commandapi.executors.ExecutorType;
 import org.bukkit.Location;
 import org.bukkit.scoreboard.Objective;
-import org.bukkit.util.Vector;
 import org.bukkit.entity.Entity;
 
 import java.util.Collection;

@@ -5,11 +5,10 @@ import dev.jorel.commandapi.CommandTree;
 import dev.jorel.commandapi.arguments.*;
 import dev.jorel.commandapi.executors.ExecutorType;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.plugin.Plugin;
+import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 
@@ -45,7 +44,14 @@ public class LookAtCommand {
     public void lookAt(ArrayList<Entity> target, Location source){
         for(Entity entity : target) {
             Location posTarget = entity instanceof LivingEntity ? ((LivingEntity) entity).getEyeLocation() : entity.getLocation();
-            Location location = entity.getLocation().setDirection(source.toVector().subtract(posTarget.toVector()));
+            Location location = entity.getLocation();
+            location.setDirection(source.toVector().subtract(posTarget.toVector()));
+
+            //Allows smooth change in direction entity is looking
+            Vector sourceVec = location.getDirection().normalize().multiply(0.1);
+            sourceVec.add(entity.getLocation().getDirection().normalize().multiply(0.9));
+            sourceVec.add(sourceVec.normalize().multiply(1.0));
+            location.setDirection(sourceVec);
 
             float yaw = location.getYaw();
             float pitch = location.getPitch();

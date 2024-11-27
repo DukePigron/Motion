@@ -66,7 +66,7 @@ Corresponds to the minecraft NBT data Rotation. <br />
 /lookat <target> <source> [<anchoredEyes>]
 /lookat <target> <location>
 ```
-Makes the target look at the source
+Makes the target look at the source (Works best when run in a repeating command block or ticking function)
 
 ### /launch
 ```
