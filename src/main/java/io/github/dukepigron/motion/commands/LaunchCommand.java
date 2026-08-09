@@ -11,7 +11,7 @@ import org.bukkit.util.Vector;
 import org.bukkit.entity.Entity;
 import org.bukkit.scoreboard.Objective;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class LaunchCommand {
 
@@ -41,7 +41,7 @@ public class LaunchCommand {
 
                                                                                         .then(new DoubleArgument("scale").setOptional(true)
                                                                                                 .executes((sender, args) -> {
-                                                                                                    ArrayList<Entity> target = (ArrayList<Entity>) args.get("target");
+                                                                                                    List<Entity> target = (List<Entity>) args.get("target");
                                                                                                     String operation = (String) args.get("operation");
                                                                                                     float yaw = ((Entity) args.get("targetSource")).getYaw();
                                                                                                     float pitch = ((Entity) args.get("targetSource")).getPitch();
@@ -65,7 +65,7 @@ public class LaunchCommand {
                                                                 .then(new DoubleArgument("speed")
 
                                                                         .executes((sender, args) -> {
-                                                                            ArrayList<Entity> target = (ArrayList<Entity>) args.get("target");
+                                                                            List<Entity> target = (List<Entity>) args.get("target");
                                                                             String operation = (String) args.get("operation");
                                                                             float yaw = ((Entity) args.get("targetSource")).getYaw();
                                                                             float pitch = ((Entity) args.get("targetSource")).getPitch();
@@ -96,7 +96,7 @@ public class LaunchCommand {
 
                                                                                                                 .then(new DoubleArgument("scale").setOptional(true)
                                                                                                                         .executes((sender, args) -> {
-                                                                                                                            ArrayList<Entity> target = (ArrayList<Entity>) args.get("target");
+                                                                                                                            List<Entity> target = (List<Entity>) args.get("target");
                                                                                                                             String operation = (String) args.get("operation");
 
                                                                                                                             Objective obj1 = (Objective) args.get("yawObjective");
@@ -125,7 +125,7 @@ public class LaunchCommand {
                                                                                         .then(new DoubleArgument("speed")
 
                                                                                                 .executes((sender, args) -> {
-                                                                                                    ArrayList<Entity> target = (ArrayList<Entity>) args.get("target");
+                                                                                                    List<Entity> target = (List<Entity>) args.get("target");
                                                                                                     String operation = (String) args.get("operation");
 
                                                                                                     Objective obj1 = (Objective) args.get("yawObjective");
@@ -156,7 +156,7 @@ public class LaunchCommand {
                                                         .then(new DoubleArgument("speed")
 
                                                                 .executes((sender, args) -> {
-                                                                    ArrayList<Entity> target = (ArrayList<Entity>) args.get("target");
+                                                                    List<Entity> target = (List<Entity>) args.get("target");
                                                                     String operation = (String) args.get("operation");
                                                                     float yaw = ((Rotation) args.get("direction")).getNormalizedYaw();
                                                                     float pitch = ((Rotation) args.get("direction")).getNormalizedPitch();
@@ -172,7 +172,7 @@ public class LaunchCommand {
                 .register();
     }
 
-    public void launch(ArrayList<Entity> entities, String operation, double speed, float yaw, float pitch){
+    public void launch(List<Entity> entities, String operation, double speed, float yaw, float pitch){
         Vector newVel = ((new Location(entities.get(0).getWorld(), 0, 0, 0, yaw, pitch)).getDirection()).multiply(speed);
 
         for(Entity entity : entities){

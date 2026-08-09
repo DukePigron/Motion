@@ -10,6 +10,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.util.Vector;
 
+import java.util.List;
 import java.util.ArrayList;
 
 public class LookAtCommand {
@@ -27,13 +28,13 @@ public class LookAtCommand {
                                 .then(new BooleanArgument("anchoredEyes").setOptional(true)
                                         .executes((sender, args) -> {
                                             boolean eyes = args.get("anchoredEyes") == null ? false : (boolean) args.get("anchoredEyes");
-                                            lookAt((ArrayList<Entity>) args.get("target"), (Entity) args.get("source"), eyes);
+                                            lookAt((List<Entity>) args.get("target"), (Entity) args.get("source"), eyes);
                                         }, ExecutorType.ALL)
                                 )
                         )
                         .then(new LocationArgument("pos")
                                 .executes((sender, args) -> {
-                                    lookAt((ArrayList<Entity>) args.get("target"), (Location) args.get("pos"));
+                                    lookAt((List<Entity>) args.get("target"), (Location) args.get("pos"));
                                 }, ExecutorType.ALL)
                         )
                 )
@@ -41,7 +42,7 @@ public class LookAtCommand {
     }
 
     //Subtracts the target's position from the source and sets the direction to the resulting vector
-    public void lookAt(ArrayList<Entity> target, Location source){
+    public void lookAt(List<Entity> target, Location source){
         for(Entity entity : target) {
             Location posTarget = entity instanceof LivingEntity ? ((LivingEntity) entity).getEyeLocation() : entity.getLocation();
             Location location = entity.getLocation();
@@ -60,20 +61,20 @@ public class LookAtCommand {
         }
     }
     //Sets the position of the source to their eyes if set to true
-    public void lookAt(ArrayList<Entity> target, Entity source, boolean eyes){
+    public void lookAt(List<Entity> target, Entity source, boolean eyes){
         Location posSource = eyes && (source instanceof LivingEntity) ? ((LivingEntity) source).getEyeLocation() : source.getLocation();
 
         lookAt(target, posSource);
     }
 
     public void lookAt(Entity target, Location source){
-        ArrayList<Entity> entity = new ArrayList<>();
+        List<Entity> entity = new ArrayList<>();
         entity.add(target);
         lookAt(entity, source);
     }
 
     public void lookAt(Entity target, Entity source, boolean eyes){
-        ArrayList<Entity> entity = new ArrayList<>();
+        List<Entity> entity = new ArrayList<>();
         entity.add(target);
 
         lookAt(entity, source, eyes);

@@ -10,7 +10,7 @@ import org.bukkit.util.Vector;
 import org.bukkit.entity.Entity;
 import org.bukkit.scoreboard.Objective;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Collection;
 
 public class PositionCommand {
@@ -33,7 +33,7 @@ public class PositionCommand {
                                                 // Branch for taking a vector as input
                                                 .executes((sender, args) -> {
 
-                                                    ArrayList<Entity> targets = (ArrayList<Entity>) args.get("targets");
+                                                    List<Entity> targets = (List<Entity>) args.get("targets");
                                                     Vector vector = ((Location) args.get("vector")).toVector();
 
                                                     changePosition(targets, (String) args.get("operations"), vector);
@@ -51,7 +51,7 @@ public class PositionCommand {
                                                 .then(new EntitySelectorArgument.OneEntity("targetSource")
 
                                                         .executes((sender, args) -> {
-                                                            ArrayList<Entity> entities = (ArrayList<Entity>) args.get("targets");
+                                                            List<Entity> entities = (List<Entity>) args.get("targets");
                                                             Entity targetSource = (Entity) args.get("targetSource");
 
                                                             changePosition(entities, (String) args.get("operations"), targetSource.getLocation().toVector());
@@ -68,7 +68,7 @@ public class PositionCommand {
                                                 .then(new DoubleArgument("amount")
                                                         //Sets or adds the position in the specified axis
                                                         .executes((sender, args) -> {
-                                                            ArrayList<Entity> entities = (ArrayList<Entity>) args.get("targets");
+                                                            List<Entity> entities = (List<Entity>) args.get("targets");
                                                             double amount = (double) args.get("amount");
 
                                                             changePosition(entities, (String) args.get("operations"), (String) args.get("axis"), amount);
@@ -86,7 +86,7 @@ public class PositionCommand {
 
                                                                         .then(new DoubleArgument("scale").setOptional(true)
                                                                                 .executes((sender, args) -> {
-                                                                                    ArrayList<Entity> entities = (ArrayList<Entity>) args.get("targets");
+                                                                                    List<Entity> entities = (List<Entity>) args.get("targets");
                                                                                     String scoreholder = (String) args.get("scoreholder");
                                                                                     Objective objective = (Objective) args.get("objective");
                                                                                     double amount = args.get("scale") == null ? 1 : (double) args.get("scale");
@@ -191,7 +191,7 @@ public class PositionCommand {
     }
 
     //Adds/sets the entities velocities by the amount given
-    public void changePosition(ArrayList<Entity> entities, String operation, Vector vector){
+    public void changePosition(List<Entity> entities, String operation, Vector vector){
 
         switch(operation){
             case "add":
@@ -209,7 +209,7 @@ public class PositionCommand {
     }
 
     //Same as the one that uses a vector but for a single axis of position
-    public void changePosition(ArrayList<Entity> entities, String operation, String axis, double value){
+    public void changePosition(List<Entity> entities, String operation, String axis, double value){
 
         //Creates a vector with two axes set to 0 and the one specified set to the value given
         Vector vector = new Vector();

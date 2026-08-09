@@ -9,7 +9,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.scoreboard.Objective;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Collection;
 
 public class RotationCommand {
@@ -32,7 +32,7 @@ public class RotationCommand {
                                                 // Branch for taking a rotation object as input
                                                 .executes((sender, args) -> {
 
-                                                    ArrayList<Entity> targets = (ArrayList<Entity>) args.get("targets");
+                                                    List<Entity> targets = (List<Entity>) args.get("targets");
                                                     Rotation rotation = (Rotation) args.get("rotation");
 
                                                     changeRotation(targets, (String) args.get("operations"), rotation.getNormalizedYaw(), rotation.getNormalizedPitch());
@@ -50,7 +50,7 @@ public class RotationCommand {
                                                 .then(new EntitySelectorArgument.OneEntity("targetSource")
 
                                                         .executes((sender, args) -> {
-                                                            ArrayList<Entity> entities = (ArrayList<Entity>) args.get("targets");
+                                                            List<Entity> entities = (List<Entity>) args.get("targets");
                                                             Entity targetSource = (Entity) args.get("targetSource");
 
                                                             changeRotation(entities, (String) args.get("operations"), targetSource.getYaw(), targetSource.getPitch());
@@ -67,7 +67,7 @@ public class RotationCommand {
                                                 .then(new FloatArgument("amount")
                                                         //Sets or adds the rotation in the specified axis
                                                         .executes((sender, args) -> {
-                                                            ArrayList<Entity> entities = (ArrayList<Entity>) args.get("targets");
+                                                            List<Entity> entities = (List<Entity>) args.get("targets");
                                                             float amount = (float) args.get("amount");
 
                                                             changeRotation(entities, (String) args.get("operations"), (String) args.get("axis"), amount);
@@ -85,7 +85,7 @@ public class RotationCommand {
 
                                                                         .then(new DoubleArgument("scale").setOptional(true)
                                                                                 .executes((sender, args) -> {
-                                                                                    ArrayList<Entity> entities = (ArrayList<Entity>) args.get("targets");
+                                                                                    List<Entity> entities = (List<Entity>) args.get("targets");
                                                                                     String scoreholder = (String) args.get("scoreholder");
                                                                                     Objective objective = (Objective) args.get("objective");
                                                                                     float amount = args.get("scale") == null ? 1 : (float) args.get("scale");
@@ -184,7 +184,7 @@ public class RotationCommand {
     }
 
     //Adds/sets the entities rotation by the amount given
-    public void changeRotation(ArrayList<Entity> entities, String operation, float yaw, float pitch){
+    public void changeRotation(List<Entity> entities, String operation, float yaw, float pitch){
 
         switch(operation){
             case "add":
@@ -208,7 +208,7 @@ public class RotationCommand {
     }
 
     //Same as the one that uses a rotation object but for a single axis of rotation
-    public void changeRotation(ArrayList<Entity> entities, String operation, String axis, float value){
+    public void changeRotation(List<Entity> entities, String operation, String axis, float value){
 
         //Sets one of the axes to 0 and the other to the value provided
         float yaw = 0f;

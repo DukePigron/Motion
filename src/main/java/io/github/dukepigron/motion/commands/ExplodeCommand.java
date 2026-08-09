@@ -10,7 +10,7 @@ import org.bukkit.util.Vector;
 import org.bukkit.entity.Entity;
 import org.bukkit.scoreboard.Objective;
 
-import java.util.ArrayList;
+import java.util.List;
 
 //Simulates an explosion-like effect (no particles)
 //More customizable blast radius, power, and power fall-off
@@ -40,7 +40,7 @@ public class ExplodeCommand {
                                                                                 .then(new MultiLiteralArgument("fallOffType", "linear", "inverse").setOptional(true)
                                                                                         .executes((sender, args) -> {
                                                                                             Entity center = ((Entity) args.get("centerEntity"));
-                                                                                            ArrayList<Entity> targets = ((ArrayList<Entity>) args.get("targets"));
+                                                                                            List<Entity> targets = ((List<Entity>) args.get("targets"));
                                                                                             double radius = ((double) args.get("radius"));
                                                                                             double minPower = ((double) args.get("minPower"));
                                                                                             double maxPower = ((double) args.get("maxPower"));
@@ -59,7 +59,7 @@ public class ExplodeCommand {
                                                                                                         .then(new MultiLiteralArgument("fallOffType", "linear", "inverse").setOptional(true)
                                                                                                                 .executes((sender, args) -> {
                                                                                                                     Entity center = ((Entity) args.get("centerEntity"));
-                                                                                                                    ArrayList<Entity> targets = ((ArrayList<Entity>) args.get("targets"));
+                                                                                                                    List<Entity> targets = ((List<Entity>) args.get("targets"));
                                                                                                                     double radius = ((double) args.get("radius"));
                                                                                                                     double minPower = ((double) args.get("minPower"));
 
@@ -89,7 +89,7 @@ public class ExplodeCommand {
                                                                                                 .then(new MultiLiteralArgument("fallOffType", "linear", "inverse").setOptional(true)
                                                                                                         .executes((sender, args) -> {
                                                                                                             Entity center = ((Entity) args.get("centerEntity"));
-                                                                                                            ArrayList<Entity> targets = ((ArrayList<Entity>) args.get("targets"));
+                                                                                                            List<Entity> targets = ((List<Entity>) args.get("targets"));
                                                                                                             double radius = ((double) args.get("radius"));
 
                                                                                                             String scoreholder2 = (String) args.get("scoreholder2");
@@ -113,7 +113,7 @@ public class ExplodeCommand {
                                                                                                                         .then(new MultiLiteralArgument("fallOffType", "linear", "inverse").setOptional(true)
                                                                                                                                 .executes((sender, args) -> {
                                                                                                                                     Entity center = ((Entity) args.get("centerEntity"));
-                                                                                                                                    ArrayList<Entity> targets = ((ArrayList<Entity>) args.get("targets"));
+                                                                                                                                    List<Entity> targets = ((List<Entity>) args.get("targets"));
                                                                                                                                     double radius = ((double) args.get("radius"));
 
                                                                                                                                     String scoreholder2 = (String) args.get("scoreholder2");
@@ -153,7 +153,7 @@ public class ExplodeCommand {
                                                                                                 .then(new MultiLiteralArgument("fallOffType", "linear", "inverse").setOptional(true)
                                                                                                         .executes((sender, args) -> {
                                                                                                             Entity center = ((Entity) args.get("centerEntity"));
-                                                                                                            ArrayList<Entity> targets = ((ArrayList<Entity>) args.get("targets"));
+                                                                                                            List<Entity> targets = ((List<Entity>) args.get("targets"));
 
                                                                                                             String scoreholder1 = (String) args.get("scoreholder1");
                                                                                                             Objective objective1 = (Objective) args.get("objective1");
@@ -177,7 +177,7 @@ public class ExplodeCommand {
                                                                                                                         .then(new MultiLiteralArgument("fallOffType", "linear", "inverse").setOptional(true)
                                                                                                                                 .executes((sender, args) -> {
                                                                                                                                     Entity center = ((Entity) args.get("centerEntity"));
-                                                                                                                                    ArrayList<Entity> targets = ((ArrayList<Entity>) args.get("targets"));
+                                                                                                                                    List<Entity> targets = ((List<Entity>) args.get("targets"));
                                                                                                                                     String scoreholder1 = (String) args.get("scoreholder1");
                                                                                                                                     Objective objective1 = (Objective) args.get("objective1");
                                                                                                                                     double scale1 = (double) args.get("scale1");
@@ -211,7 +211,7 @@ public class ExplodeCommand {
                                                                                                                 .then(new MultiLiteralArgument("fallOffType", "linear", "inverse").setOptional(true)
                                                                                                                         .executes((sender, args) -> {
                                                                                                                             Entity center = ((Entity) args.get("centerEntity"));
-                                                                                                                            ArrayList<Entity> targets = ((ArrayList<Entity>) args.get("targets"));
+                                                                                                                            List<Entity> targets = ((List<Entity>) args.get("targets"));
 
                                                                                                                             String scoreholder1 = (String) args.get("scoreholder1");
                                                                                                                             Objective objective1 = (Objective) args.get("objective1");
@@ -239,7 +239,7 @@ public class ExplodeCommand {
                                                                                                                                         .then(new MultiLiteralArgument("fallOffType", "linear", "inverse").setOptional(true)
                                                                                                                                                 .executes((sender, args) -> {
                                                                                                                                                     Entity center = ((Entity) args.get("centerEntity"));
-                                                                                                                                                    ArrayList<Entity> targets = ((ArrayList<Entity>) args.get("targets"));
+                                                                                                                                                    List<Entity> targets = ((List<Entity>) args.get("targets"));
 
                                                                                                                                                     String scoreholder1 = (String) args.get("scoreholder1");
                                                                                                                                                     Objective objective1 = (Objective) args.get("objective1");
@@ -294,7 +294,7 @@ public class ExplodeCommand {
                                                                                 .then(new MultiLiteralArgument("fallOffType", "linear", "inverse").setOptional(true)
                                                                                         .executes((sender, args) -> {
                                                                                             Location center = ((Location) args.get("centerLocation"));
-                                                                                            ArrayList<Entity> targets = ((ArrayList<Entity>) args.get("targets"));
+                                                                                            List<Entity> targets = ((List<Entity>) args.get("targets"));
                                                                                             double radius = ((double) args.get("radius"));
                                                                                             double minPower = ((double) args.get("minPower"));
                                                                                             double maxPower = ((double) args.get("maxPower"));
@@ -313,7 +313,7 @@ public class ExplodeCommand {
                                                                                                         .then(new MultiLiteralArgument("fallOffType", "linear", "inverse").setOptional(true)
                                                                                                                 .executes((sender, args) -> {
                                                                                                                     Location center = ((Location) args.get("centerLocation"));
-                                                                                                                    ArrayList<Entity> targets = ((ArrayList<Entity>) args.get("targets"));
+                                                                                                                    List<Entity> targets = ((List<Entity>) args.get("targets"));
                                                                                                                     double radius = ((double) args.get("radius"));
                                                                                                                     double minPower = ((double) args.get("minPower"));
 
@@ -343,7 +343,7 @@ public class ExplodeCommand {
                                                                                                 .then(new MultiLiteralArgument("fallOffType", "linear", "inverse").setOptional(true)
                                                                                                         .executes((sender, args) -> {
                                                                                                             Location center = ((Location) args.get("centerLocation"));
-                                                                                                            ArrayList<Entity> targets = ((ArrayList<Entity>) args.get("targets"));
+                                                                                                            List<Entity> targets = ((List<Entity>) args.get("targets"));
                                                                                                             double radius = ((double) args.get("radius"));
 
                                                                                                             String scoreholder2 = (String) args.get("scoreholder2");
@@ -367,7 +367,7 @@ public class ExplodeCommand {
                                                                                                                         .then(new MultiLiteralArgument("fallOffType", "linear", "inverse").setOptional(true)
                                                                                                                                 .executes((sender, args) -> {
                                                                                                                                     Location center = ((Location) args.get("centerLocation"));
-                                                                                                                                    ArrayList<Entity> targets = ((ArrayList<Entity>) args.get("targets"));
+                                                                                                                                    List<Entity> targets = ((List<Entity>) args.get("targets"));
                                                                                                                                     double radius = ((double) args.get("radius"));
 
                                                                                                                                     String scoreholder2 = (String) args.get("scoreholder2");
@@ -407,7 +407,7 @@ public class ExplodeCommand {
                                                                                                 .then(new MultiLiteralArgument("fallOffType", "linear", "inverse").setOptional(true)
                                                                                                         .executes((sender, args) -> {
                                                                                                             Location center = ((Location) args.get("centerLocation"));
-                                                                                                            ArrayList<Entity> targets = ((ArrayList<Entity>) args.get("targets"));
+                                                                                                            List<Entity> targets = ((List<Entity>) args.get("targets"));
 
                                                                                                             String scoreholder1 = (String) args.get("scoreholder1");
                                                                                                             Objective objective1 = (Objective) args.get("objective1");
@@ -431,7 +431,7 @@ public class ExplodeCommand {
                                                                                                                         .then(new MultiLiteralArgument("fallOffType", "linear", "inverse").setOptional(true)
                                                                                                                                 .executes((sender, args) -> {
                                                                                                                                     Location center = ((Location) args.get("centerLocation"));
-                                                                                                                                    ArrayList<Entity> targets = ((ArrayList<Entity>) args.get("targets"));
+                                                                                                                                    List<Entity> targets = ((List<Entity>) args.get("targets"));
                                                                                                                                     String scoreholder1 = (String) args.get("scoreholder1");
                                                                                                                                     Objective objective1 = (Objective) args.get("objective1");
                                                                                                                                     double scale1 = (double) args.get("scale1");
@@ -465,7 +465,7 @@ public class ExplodeCommand {
                                                                                                                 .then(new MultiLiteralArgument("fallOffType", "linear", "inverse").setOptional(true)
                                                                                                                         .executes((sender, args) -> {
                                                                                                                             Location center = ((Location) args.get("centerLocation"));
-                                                                                                                            ArrayList<Entity> targets = ((ArrayList<Entity>) args.get("targets"));
+                                                                                                                            List<Entity> targets = ((List<Entity>) args.get("targets"));
 
                                                                                                                             String scoreholder1 = (String) args.get("scoreholder1");
                                                                                                                             Objective objective1 = (Objective) args.get("objective1");
@@ -493,7 +493,7 @@ public class ExplodeCommand {
                                                                                                                                         .then(new MultiLiteralArgument("fallOffType", "linear", "inverse").setOptional(true)
                                                                                                                                                 .executes((sender, args) -> {
                                                                                                                                                     Location center = ((Location) args.get("centerLocation"));
-                                                                                                                                                    ArrayList<Entity> targets = ((ArrayList<Entity>) args.get("targets"));
+                                                                                                                                                    List<Entity> targets = ((List<Entity>) args.get("targets"));
 
                                                                                                                                                     String scoreholder1 = (String) args.get("scoreholder1");
                                                                                                                                                     Objective objective1 = (Objective) args.get("objective1");
@@ -533,7 +533,7 @@ public class ExplodeCommand {
                 .register();
     }
 
-    public void blast(Location center, ArrayList<Entity> entities, double radius, double maxPower, double minPower, String fallOffType){
+    public void blast(Location center, List<Entity> entities, double radius, double maxPower, double minPower, String fallOffType){
         for (Entity entity : entities) {
             Location location = entity.getLocation();
 
@@ -573,7 +573,7 @@ public class ExplodeCommand {
         }
     }
 
-    public void blast(Entity center, ArrayList<Entity> entities, double radius, double maxPower, double minPower, String fallOffType){
+    public void blast(Entity center, List<Entity> entities, double radius, double maxPower, double minPower, String fallOffType){
         entities.remove(center);
         blast(center.getLocation(), entities, radius, maxPower, minPower, fallOffType);
     }
