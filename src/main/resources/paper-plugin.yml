@@ -1,0 +1,5 @@
+name: Motion
+version: '${version}'
+main: io.github.dukepigron.motion.Motion
+api-version: '26.1'
+bootstrapper: io.github.dukepigron.motion.MotionBootstrap

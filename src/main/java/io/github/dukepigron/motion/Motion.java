@@ -13,14 +13,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 public final class Motion extends JavaPlugin {
     @Override
     public void onEnable() {
-        new MotionCommand().registerMotionCommand();
-        new PositionCommand().registerPositionCommand();
-        new RotationCommand().registerRotationCommand();
-        new LookAtCommand().registerLookAtCommand();
-        new LaunchCommand().registerLaunchCommand();
-        new DistanceCommand().registerDistanceCommand();
-        new ExplodeCommand().registerExplodeCommand();
-
         Bukkit.getLogger().info("[Motion] Sliding in!");
     }
 
@@ -29,7 +21,13 @@ public final class Motion extends JavaPlugin {
         Bukkit.getLogger().info("[Motion] Taking off!");
     }
 
-    private void RegisterCommandsAndEvents(){
-
+    public static void registerCommands(){
+        new MotionCommand().registerMotionCommand();
+        new PositionCommand().registerPositionCommand();
+        new RotationCommand().registerRotationCommand();
+        new LookAtCommand().registerLookAtCommand();
+        new LaunchCommand().registerLaunchCommand();
+        new DistanceCommand().registerDistanceCommand();
+        new ExplodeCommand().registerExplodeCommand();
     }
 }

@@ -3,4 +3,3 @@ version: '${version}'
 main: io.github.dukepigron.motion.Motion
 author: 'Duke_Pigron'
 api-version: '26.1'
-depend: [CommandAPI]

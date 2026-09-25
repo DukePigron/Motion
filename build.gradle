@@ -1,9 +1,10 @@
 plugins {
     id 'java'
+    id 'com.gradleup.shadow' version '9.1.0'
 }
 
 group = 'io.github.DukePigron'
-version = '1.1.0'
+version = '1.1.1'
 
 repositories {
     mavenCentral()
@@ -22,7 +23,7 @@ repositories {
 
 dependencies {
     compileOnly "io.papermc.paper:paper-api:26.1.2.build.+"
-    compileOnly "dev.jorel:commandapi-paper-core:11.2.0"
+    implementation "dev.jorel:commandapi-paper-shade:11.2.0"
 }
 
 def targetJavaVersion = 25
@@ -41,11 +42,27 @@ tasks.withType(JavaCompile).configureEach {
     }
 }
 
+shadowJar {
+    archiveClassifier.set("")
+    relocate("dev.jorel.commandapi", "io.github.dukepigron.motion.commandapi")
+}
+
+tasks.jar {
+    enabled = false
+}
+
+tasks.build {
+    dependsOn(tasks.shadowJar)
+}
+
 processResources {
     def props = [version: version]
     inputs.properties props
     filteringCharset 'UTF-8'
     filesMatching('plugin.yml') {
+        expand props
+    }
+    filesMatching('paper-plugin.yml') {
         expand props
     }
 }
